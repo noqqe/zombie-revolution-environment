@@ -1,5 +1,5 @@
 #!/bin/bash
-# czree.bash: cute zombie random evolution emulator
+# zre.bash: zombie revolution environment simulator
 # Copyright: (C) 2010 Florian Baumann <flo@noqqe.de>
 # License: GPL-3 <http://www.gnu.org/licenses/gpl-3.0.txt>
 # Date: Thursday 2010-10-14
@@ -19,13 +19,32 @@ maxtime=20
 # the wonder of life
 human_born() {
     ((humans++))
-    echo "BORN: it was a cold night, about 9 month ago... $humans humans alive."
+    local born=$(($RANDOM % 5 + 1))
+    echo -n "BORN: 1 human was born. "
+    case $born in 
+        1) echo -n "it was a cold night, about 9 month ago..." ;;
+        2) echo -n "he will be the next bofh." ;;
+        3) echo -n "it's pirate! argh." ;;
+        4) echo -n "his name is bob." ;;
+        5) echo -n "her name is alice." ;;
+    esac
+    echo " $humans humans alive."
 }
 
 # another wonder of life
 zombie_born() {
     ((zombies++))
-    echo "BORN: argh. a new zombie awaked! now $zombies zombies are alive."
+    local born=$(($RANDOM % 5 + 1))
+    echo -n "BORN: 1 zombie awaked! "
+    case $born in 
+        1) echo -n "omg. it's michael jackson. " ;;
+        2) echo -n "coffee at his grave." ;;
+        3) echo -n "it's dr. hills project." ;;
+        4) echo -n "brains. uargh." ;;
+        5) echo -n "vegetarian zombie. grains!" ;;
+    esac
+    echo " $zombies zombies alive."
+
 }
 
 # the end of life..
@@ -35,8 +54,8 @@ human_die() {
     echo -n "DIED: 1 humand died. "
     case $die_reason in
         1) echo -n "he ran into a rake." ;;
-        2) echo -n "he can't handle the situation. suizide." ;;
-        3) echo -n "he met the electric chair for bad programming." ;;
+        2) echo -n "his lolcat killed him." ;;
+        3) echo -n "judgement: electric chair for useless use of cat in bashscripts." ;;
     esac
     echo " $humans humans alive."
      
@@ -78,7 +97,7 @@ zombie_attack() {
         ((humans_won++))
         
         # humans killed zombies
-        echo "ATTACK FAILED: the zombies failed. $victims of them died. too much mistgabeln"
+        echo "ATTACK FAILED: the zombies failed. $victims of them died. too much mistgabeln."
         echo "STATUS: $victims zombies died! $zombies zombies left."
     fi
 } 
@@ -87,7 +106,7 @@ zombie_attack() {
 human_attack() {
     local attackers=$(($RANDOM % $humans + 2))
     local defenders=$(($RANDOM % $zombies + 2))
-    echo "ATTACK: $attackers humans developed some counter-poison and attacked $defenders zombies" 
+    echo "ATTACK: $attackers humans developed some counter-poison and attacked $defenders zombies." 
 
     if [ $attackers -ge $defenders ]; then
         # humans win
@@ -123,14 +142,16 @@ infos() {
 
 # some strange stuff just for the story
 human_weapons() {
-    local killed=$(($RANDOM % 4 + 2))
+    local killed=$(($RANDOM % 10 + 2))
     zombies=$(($zombies - $killed))
-    echo "ATTACK: humans got shotguns! blow them away! humans killed $killed zombies"
+    ((humans_won++)) 
+    echo "ATTACK: there is no zombie content without shotguns. humans killed $killed zombies with shotguns."
 }
 
 truck_hijack() {
     local killed=$(($RANDOM % 12 + 1))
     humans=$(($humans - $killed))
+    ((zombies_won++))
     echo "ATTACK: zombies hijacked a garbage truck! it crashed into the non-swimmer's pool. $killed humans killed."
 }
 
@@ -152,6 +173,7 @@ zombie_support() {
 human_insane_mode() {
     local insane=$(($RANDOM % 4 + 2))
     local killed=$(($RANDOM % 10 + 2))
+    ((humans_won++))
     humans=$(($humans - $insane))
     zombies=$(($zombies - $killed))
     echo "ATTACK: $insane insane humans killed $killed zombies and themself"
@@ -160,6 +182,7 @@ human_insane_mode() {
 human_airstrike() {
     local killed=$(($RANDOM % $zombies + 1))
     zombies=$(($zombies - $killed))
+    ((humans_won++))
     echo "ATTACK: the humans requested an airstrike by the nato. and get it. $killed zombies killed." 
 }
 ### system functions ###########################################################
@@ -167,13 +190,15 @@ human_airstrike() {
 population_zero() {
     if [ $humans -le 0 ] ; then
         echo "STATUS: ZOMBIES WIN!"
-        echo "* HUMANS: $humans - FIGHTS WON: $humans_won"
+        echo "* HUMANS: 0 - FIGHTS WON: $humans_won"
         echo "* ZOMBIES: $zombies - FIGHTS WON: $zombies_won"
+        echo "* ROUNDS: $round"
         exit 0
     elif [ $zombies -le 0 ]; then
         echo "STATUS: HUMANS WIN!"
         echo "* HUMANS: $humans - FIGHTS WON: $humans_won"
-        echo "* ZOMBIES: $zombies - FIGHTS WON: $zombies_won"
+        echo "* ZOMBIES: 0 - FIGHTS WON: $zombies_won"
+        echo "* ROUNDS: $round"
         exit 0
     fi
 }
@@ -194,13 +219,15 @@ world_explode() {
 ### create new world. this is the runtime #####################################
 # welcome message
 clear
+
 echo "-------------------------------------------------------------"
-echo "|  ___ _____ __ ___  ___                                    |"
-echo "| / __|_  / '__/ _ \/ _ \\                                   |"
-echo "|| (__ / /| | |  __/  __/                                   |"
-echo "| \___/___|_|  \___|\___|                                   |" 
+echo "| _               _           _                             |"
+echo "|| |__  _ __ __ _(_)_ __  ___| |                            |"
+echo "|| '_ \| '__/ _\` | | '_ \/ __| |                            |"
+echo "|| |_) | | | (_| | | | | \__ \_|                            |"
+echo "||_.__/|_|  \__,_|_|_| |_|___(_)                            |"
 echo "|-----------------------------------------------------------|"                        
-echo "| cute zombie (r)evolution environment emulator             |" 
+echo "| zombie revolution environment simulator                   |" 
 echo "-------------------------------------------------------------"
 echo "STATUS: $humans humans and $zombies zombies live there.    "
 echo "INFO: let's start the story...                             "

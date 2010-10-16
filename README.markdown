@@ -1,0 +1,57 @@
+cute zombie (r)evolution environment simulator
+=============================================
+
+the zombie (r)evolution environment simulator (i just call it zre) is kind of... uhm...yeah. 
+that's still the problem. i dunno what it really is. once, in a lazy night i got to 
+get away from my work. i thought about a tiny "world" written in bash and randomization of events
+which could happen _in_ the world. 
+
+i am briefly talking about a tiny bash script, which generates his own tiny
+story of a world and the battle of two "sides". so i wrote up the zre to 
+let humans fight against zombies. that's it. 
+
+who's gonna win? its $RANDOM's decision. 
+
+playing with zombies
+--------------------
+
+usage is simple. get it and run zre.bash.
+
+`$ git clone git://github.com/noqqe/zombie-revolution-environment.git`
+
+`$ ./zre.bash`
+
+see zre.example for gameplay.
+
+
+create new events by yourself
+-----------------------------
+
+zre is using bash functions to create a event. it's very easy to
+add own events to zre. 
+
+ * define a function 
+ * add it into the event case
+
+bugs and ideas
+-------------
+
+please report it! would be great if anyone of you got further ideas.
+
+license
+-------
+zre.bash  Copyright (C) 2010  Florian Baumann
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
