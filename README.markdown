@@ -1,5 +1,5 @@
-cute zombie (r)evolution environment simulator
-=============================================
+zombie (r)evolution environment 
+================================
 
 the zombie (r)evolution environment simulator (i just call it zre) is kind of... uhm...yeah. 
 that's still the problem. i dunno what it really is. once, in a lazy night i got to 
