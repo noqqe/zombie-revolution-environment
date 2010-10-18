@@ -12,7 +12,7 @@ zombies=500
 # random sleeptime between events in seconds.
 # 5 - 10 seconds are recommended
 mintime=7
-maxtime=20
+maxtime=10
 
 ### these things could happen #################################################
 
@@ -24,7 +24,7 @@ human_born() {
     case $born in 
         1) echo -n "it was a cold night, about 9 month ago..." ;;
         2) echo -n "he will be the next bofh." ;;
-        3) echo -n "it's pirate! argh." ;;
+        3) echo -n "it's a pirate! argh." ;;
         4) echo -n "his name is bob." ;;
         5) echo -n "her name is alice." ;;
     esac
@@ -77,57 +77,30 @@ zombie_die() {
 
 # the zombies need braiiins!
 zombie_attack() {
-    local attackers=$(($RANDOM % $zombies + 1))
-    local defenders=$(($RANDOM % $humans + 1))
-    echo "ATTACK: $attackers zombies raid a farm near the city! $defenders humans live there!"
-
-    if [ $attackers -ge $defenders ]; then
-        # zombies win
-        local victims=$(($RANDOM % $defenders + 1))
-        humans=$(($humans - $victims))
-        ((zombies_won++))
-        
-        # zombies killed humans
-        echo "ATTACK SUCCESSFUL: the humans got no chance.."
-        echo "STATUS: $victims humans died! $humans humans left."
-    else
-        #humans win
-        local victims=$(($RANDOM % $attackers + 1))
-        zombies=$(($zombies - $victims))
-        ((humans_won++))
-        
-        # humans killed zombies
-        echo "ATTACK FAILED: the zombies failed. $victims of them died. too much mistgabeln."
-        echo "STATUS: $victims zombies died! $zombies zombies left."
-    fi
+    local attack_message=$((RANDOM % 3 + 1 ))
+    echo -n "ATTACK: " 
+    case $attack_message in 
+        1) echo -n "zombies raid a farm near the city!" ;;
+        2) echo -n "zombies raid a pet shop!" ;;
+        3) echo -n "zombies raid a liquoer store. drunken zombies crossing." ;;
+    esac
+    echo 
+    attack_by zombies
 } 
 
 # counter posion?!
 human_attack() {
-    local attackers=$(($RANDOM % $humans + 2))
-    local defenders=$(($RANDOM % $zombies + 2))
-    echo "ATTACK: $attackers humans developed some counter-poison and attacked $defenders zombies." 
-
-    if [ $attackers -ge $defenders ]; then
-        # humans win
-        local victims=$(($RANDOM % $defenders + 2))
-        zombies=$(($zombies - $victims))
-        humans=$(($humans + $victims))
-        ((humans_won++))
-
-        # zombies killed humans
-        echo "ATTACK SUCCESSFUL: $victims zombies are now humans. welcome back!"
-        echo "STATUS: $victims zombies are gone! $zombies zombies left."
-    else
-        #zombies win
-        local victims=$(($RANDOM % $attackers + 2))
-        humans=$(($humans - $victims))
-        ((zombies_won++))
-
-        # humans killed zombies
-        echo "ATTACK FAILED: a ridiculous try. $victims of them died. new meal for the zombies."
-        echo "STATUS: $victims humans died! $humans humans left."
-    fi
+    local attack_message=$((RANDOM % 4 + 1 ))
+    echo -n "ATTACK: "
+    case $attack_message in 
+        1) echo -n "humans developed counter-poison. a new hope?" ;;
+        2) echo -n "the army sent a huge amount of weapons to the civils." ;;
+        3) echo -n "humans raid the zombies headerquarter" ;;
+        4) echo -n "the humans requested an airstrike by the nato. and get it." ;;
+        5) echo -n "there is no zombie content without shotguns. humans attack zombies with thier shotguns " ;;
+    esac
+    echo
+    attack_by humans
 }
 
 
@@ -138,14 +111,6 @@ infos() {
         1) echo "INFO: humans:$humans - fights won:$humans_won" ;;
         2) echo "INFO: zombies:$zombies - fights won: $zombies_won" ;;
     esac
-}
-
-# some strange stuff just for the story
-human_weapons() {
-    local killed=$(($RANDOM % 10 + 2))
-    zombies=$(($zombies - $killed))
-    ((humans_won++)) 
-    echo "ATTACK: there is no zombie content without shotguns. humans killed $killed zombies with shotguns."
 }
 
 truck_hijack() {
@@ -179,13 +144,46 @@ human_insane_mode() {
     echo "ATTACK: $insane insane humans killed $killed zombies and themself"
 }
 
-human_airstrike() {
-    local killed=$(($RANDOM % $zombies + 1))
-    zombies=$(($zombies - $killed))
-    ((humans_won++))
-    echo "ATTACK: the humans requested an airstrike by the nato. and get it. $killed zombies killed." 
-}
 ### system functions ###########################################################
+# normal attack 
+attack_by() {
+    if [ $1 = zombies ]; then
+        attackers=$(($RANDOM % $zombies + 2))
+        defenders=$(($RANDOM % $humans + 2))
+        if [ $attackers -gt $defenders ]; then
+            ((zombies_won++))
+            victims=$(($RANDOM % $defenders + 1))
+            humans=$(($humans - $victims))
+            winner=zombies
+            loser=humans
+        else
+            ((humans_won++))
+            victims=$(($RANDOM % $attackers + 1))
+            zombies=$(($zombies - $victims))
+            winner=humans
+            loser=zombies
+        fi 
+    elif [ $1 = humans ]; then
+        attackers=$(($RANDOM % $humans + 2))
+        defenders=$(($RANDOM % $zombies + 2))
+        if [ $attackers -gt $defenders ]; then
+            ((humans_won++))
+            victims=$(($RANDOM % $defenders + 1))
+            zombies=$(($zombies - $victims))
+            winner=humans
+            loser=zombies
+        else
+           ((zombies_won++)) 
+            victims=$(($RANDOM % $attackers + 1))
+            humans=$(($humans - $victims))
+            winner=zombies
+            loser=humans
+        fi 
+
+    fi
+    echo "ATTACK: $attackers $winner vs. $defenders $loser. $winner win. $victims $loser died." 
+}
+
 # and the winner is... who's still alive.
 population_zero() {
     if [ $humans -le 0 ] ; then
@@ -242,7 +240,8 @@ zombies_won=0
 
 # choose a randon event from defined functions
 while true ; do
-    event=$(($RANDOM %12 +1))
+
+    event=$(($RANDOM %10 +1))
     ((round++))
     case $event in 
         1) human_born ;;
@@ -254,9 +253,7 @@ while true ; do
         7) zombie_support ;;
         8) human_attack ;;
         9) human_insane_mode ;;
-        10) human_airstrike ;;
-        11) human_weapons ;;
-        12) truck_hijack ;;
+        10) truck_hijack ;;
         *) echo "STATUS: the world is...buggy." ; exit 1 ;;
     esac
 
