@@ -77,12 +77,14 @@ zombie_die() {
 
 # the zombies need braiiins!
 zombie_attack() {
-    local attack_message=$((RANDOM % 3 + 1 ))
+    local attack_message=$((RANDOM % 5 + 1 ))
     echo -n "ATTACK: " 
     case $attack_message in 
         1) echo -n "zombies raid a farm near the city!" ;;
         2) echo -n "zombies raid a pet shop!" ;;
         3) echo -n "zombies raid a liquoer store. drunken zombies crossing." ;;
+        4) echo -n "zombies hijacked a garbage truck! it crashed into the non-swimmer's pool." ;;
+		5) echo -n "do you know the movie \"braindeath\"? the zombie with his lawnmower? he's here. exactly." ;;
     esac
     echo 
     attack_by zombies
@@ -90,7 +92,7 @@ zombie_attack() {
 
 # counter posion?!
 human_attack() {
-    local attack_message=$((RANDOM % 4 + 1 ))
+    local attack_message=$((RANDOM % 5 + 1 ))
     echo -n "ATTACK: "
     case $attack_message in 
         1) echo -n "humans developed counter-poison. a new hope?" ;;
@@ -98,6 +100,7 @@ human_attack() {
         3) echo -n "humans raid the zombies headerquarter" ;;
         4) echo -n "the humans requested an airstrike by the nato. and get it." ;;
         5) echo -n "there is no zombie content without shotguns. humans attack zombies with thier shotguns " ;;
+		6) echo -n "zombies and themself"
     esac
     echo
     attack_by humans
@@ -108,40 +111,38 @@ human_attack() {
 infos() {
     local info=$(($RANDOM % 2 + 1))
     case $info in
-        1) echo "INFO: humans:$humans - fights won:$humans_won" ;;
-        2) echo "INFO: zombies:$zombies - fights won: $zombies_won" ;;
+        1) echo "INFO: humans:$humans - fights won:$humans_won - round=$round" ;;
+        2) echo "INFO: zombies:$zombies - fights won: $zombies_won - round=$round" ;;
     esac
 }
 
-truck_hijack() {
-    local killed=$(($RANDOM % 12 + 1))
-    humans=$(($humans - $killed))
-    ((zombies_won++))
-    echo "ATTACK: zombies hijacked a garbage truck! it crashed into the non-swimmer's pool. $killed humans killed."
-}
-
-
 zombie_support() {
-    local size=$(($RANDOM % $zombies +1))
+    local size=$(($RANDOM % $zombies + 1))
+	local support=$(($RANDOM % 4 + 1))
     zombies=$(($zombies + $size))
-    local support=$(($RANDOM % 4 + 1))
-    echo -n "STATUS: "
+    
+    echo -n "SUPPORT: "
     case $support in 
         1) echo -n "some zombies called friends to destroy the humans." ;;
         2) echo -n "a green toxic cloud over the graveyard results?" ;;
         3) echo -n "another graveyard has opened." ;; 
         4) echo -n "what has a dogs head, a cats tail, and brains all over its face? A Zombie coming out of the pet store."
     esac
-    echo " the zombies get $size undeads support! $zombies zombies alive"
+    echo " the zombies get $size undeads support. $zombies zombies alive"
 }
 
-human_insane_mode() {
-    local insane=$(($RANDOM % 4 + 2))
-    local killed=$(($RANDOM % 10 + 2))
-    ((humans_won++))
-    humans=$(($humans - $insane))
-    zombies=$(($zombies - $killed))
-    echo "ATTACK: $insane insane humans killed $killed zombies and themself"
+human_support() {
+    local size=$(($RANDOM % $humans + 1))
+    humans=$(($humans + $size))
+    
+	local support_msg=$(($RANDOM % 3 + 1))
+    echo -n "SUPPORT: "
+    case $support_msg in 
+        1) echo -n "some policemen joined the humans." ;;
+        2) echo -n "some evil ninjas joined the humans" ;;
+        3) echo -n "saving private ryan. zombie edition" ;; 
+    esac
+    echo " the humans get $size people support. $humans humans alive"
 }
 
 ### system functions ###########################################################
@@ -247,13 +248,12 @@ while true ; do
         1) human_born ;;
         2) zombie_born ;;
         3) zombie_attack ;;
-        4) infos ;;
-        5) human_die ;;
-        6) zombie_die ;;
-        7) zombie_support ;;
-        8) human_attack ;;
-        9) human_insane_mode ;;
-        10) truck_hijack ;;
+		4) human_attack ;;
+        5) infos ;;
+        6) human_die ;;
+        7) zombie_die ;;
+        8) zombie_support ;;
+		9) humans_support ;;
         *) echo "STATUS: the world is...buggy." ; exit 1 ;;
     esac
 
