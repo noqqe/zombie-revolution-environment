@@ -32,10 +32,13 @@ defense and strength.
 
 lets' have a look at the example: humans attack zombies.
 
-`strength example: 50 humans * 100 off-points = 5000 off-points
-defense example: 50 zombies * 80 deff-points = 4000 deff-points
-fight: humans 5000 strength vs. zombies 4000 defense 
-result: humans win.`
+`strength example: 50 humans * 100 off-points = 5000 off-points`
+
+`defense example: 50 zombies * 80 deff-points = 4000 deff-points`
+
+`fight: humans 5000 strength vs. zombies 4000 defense`
+
+`result: humans win.`
 
 basic stats for humans:
 humans_off=100
