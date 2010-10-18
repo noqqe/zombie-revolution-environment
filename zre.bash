@@ -6,13 +6,13 @@
 
 ### initial setting for your environment ######################################
 # number of citizens by default
-humans=500
-zombies=500
+humans=250
+zombies=250
 
 # random sleeptime between events in seconds.
 # 5 - 10 seconds are recommended
-mintime=7
-maxtime=10
+mintime=5
+maxtime=7
 
 ### these things could happen #################################################
 
@@ -248,12 +248,12 @@ while true ; do
         1) human_born ;;
         2) zombie_born ;;
         3) zombie_attack ;;
-		4) human_attack ;;
+        4) human_attack ;;
         5) infos ;;
         6) human_die ;;
         7) zombie_die ;;
         8) zombie_support ;;
-		9) humans_support ;;
+        9) humans_support ;;
         *) echo "STATUS: the world is...buggy." ; exit 1 ;;
     esac
 
