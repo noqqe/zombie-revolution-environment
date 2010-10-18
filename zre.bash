@@ -131,7 +131,7 @@ zombie_support() {
     echo " the zombies get $size undeads support. $zombies zombies alive"
 }
 
-human_support() {
+humans_support() {
     local size=$(($RANDOM % $humans + 1))
     humans=$(($humans + $size))
     
