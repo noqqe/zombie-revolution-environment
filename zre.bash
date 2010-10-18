@@ -17,27 +17,26 @@ mintime=5
 maxtime=7
 
 ### stats
-# strength example: 50 humans * 100 off-points = 5000 off-points 
-# defense example: 50 zombies * 80 deff-points = 4000 deff-points
-# FIGHT: humans 5000 off vs. zombies 4000 deff == humans win. 
+# strength example: 50 humans * 100 strength-points = 5000 strength-points 
+# defense example: 50 zombies * 80 defense-points = 4000 defense-points
+# FIGHT: humans 5000 strength vs. zombies 4000 defense == humans win. 
 
 # stats for humans. 
-humans_off=100
-humans_deff=100
+human_strength=100
+human_defense=100
 
 # stats for zombies. 
-zombies_off=120
-zombies_deff=80
+zombie_strength=120
+zombie_defense=80
 
 
 ### these things could happen #################################################
-
 # the wonder of life
 human_born() {
     ((humans++))
-    local born=$(($RANDOM % 5 + 1))
+    local born_msg=$(($RANDOM % 5 + 1))
     echo -n "BORN: 1 human was born. "
-    case $born in 
+    case $born_msg in 
         1) echo -n "it was a cold night, about 9 month ago..." ;;
         2) echo -n "he will be the next bofh." ;;
         3) echo -n "it's a pirate! argh." ;;
@@ -50,9 +49,9 @@ human_born() {
 # another wonder of life
 zombie_born() {
     ((zombies++))
-    local born=$(($RANDOM % 5 + 1))
+    local born_msg=$(($RANDOM % 5 + 1))
     echo -n "BORN: 1 zombie awaked! "
-    case $born in 
+    case $born_msg in 
         1) echo -n "omg. it's michael jackson. " ;;
         2) echo -n "coffee at his grave." ;;
         3) echo -n "it's dr. hills project." ;;
@@ -66,9 +65,9 @@ zombie_born() {
 # the end of life..
 human_die() {
     ((humans--))
-    local die_reason=$(($RANDOM % 3 + 1))
+    local die_msg=$(($RANDOM % 3 + 1))
     echo -n "DIED: 1 humand died. "
-    case $die_reason in
+    case $die_msg in
         1) echo -n "he ran into a rake." ;;
         2) echo -n "his lolcat killed him." ;;
         3) echo -n "judgement: electric chair for useless use of cat in bashscripts." ;;
@@ -80,9 +79,9 @@ human_die() {
 # just kidding. zombies can't die.
 zombie_die() {
     ((zombies--))
-    local die_reason=$(($RANDOM % 3 + 1))
+    local die_msg=$(($RANDOM % 3 + 1))
     echo -n "DIED: 1 zombie died. "
-    case $die_reason in
+    case $die_msg in
         1) echo -n "farmished, maybe?" ;;
         2) echo -n "he watched the sunrise." ;;
         3) echo -n "he lost his legs." ;;
@@ -93,9 +92,9 @@ zombie_die() {
 
 # the zombies need braiiins!
 zombie_attack() {
-    local attack_message=$((RANDOM % 6 + 1 ))
+    local attack_msg=$((RANDOM % 6 + 1 ))
     echo -n "ATTACK: " 
-    case $attack_message in 
+    case $attack_msg in 
         1) echo -n "zombies raid a farm near the city!" ;;
         2) echo -n "zombies raid a pet shop!" ;;
         3) echo -n "zombies raid a liquoer store. drunken zombies crossing." ;;
@@ -107,11 +106,11 @@ zombie_attack() {
     attack_by zombies
 } 
 
-# counter posion?!
+# the human attack
 human_attack() {
-    local attack_message=$((RANDOM % 5 + 1 ))
+    local attack_msg=$((RANDOM % 5 + 1 ))
     echo -n "ATTACK: "
-    case $attack_message in 
+    case $attack_msg in 
         1) echo -n "humans developed counter-poison. a new hope?" ;;
         2) echo -n "the army sent a huge amount of weapons to the civils." ;;
         3) echo -n "humans raid the zombies headerquarter." ;;
@@ -122,16 +121,16 @@ human_attack() {
     attack_by humans
 }
 
-
 # lets have a look at the stats 
 infos() {
-    local info=$(($RANDOM % 2 + 1))
-    case $info in
-        1) echo "INFO: humans:$humans - fights won:$humans_won - round:$round" ;;
-        2) echo "INFO: zombies:$zombies - fights won:$zombies_won - round:$round" ;;
+    local info_msg=$(($RANDOM % 2 + 1))
+    case $info_msg in
+        1) echo "INFO: humans:$humans($human_strength|$human_defense) wins:$humans_won round:$round" ;;
+        2) echo "INFO: zombies:$zombies($zombie_strength|$zombie_defense) wins:$zombies_won round:$round" ;;
     esac
 }
 
+# the zombies get X undeads support
 zombie_support() {
     local size=$(($RANDOM % $zombies + 1))
 	local support=$(($RANDOM % 4 + 1))
@@ -147,6 +146,7 @@ zombie_support() {
     echo " the zombies get $size undeads support. $zombies zombies alive"
 }
 
+# the humans get X members support
 humans_support() {
     local size=$(($RANDOM % $humans + 1))
     humans=$(($humans + $size))
@@ -161,65 +161,91 @@ humans_support() {
     echo " the humans get $size people support. $humans humans alive"
 }
 
+stats_upgrade() {
+	local upgrade_msg=$(($RANDOM % 4 + 1))
+	echo -n "INFO: "
+	case $upgrade_msg in 
+        1) echo "humans built a wall around thier city. " ; stat human_defense ;;
+        2) echo "zombies learned to handle chainsaws. rawr. " ; stat zombie_strength ;;
+        3) echo "humans got ak-47s as weapons. " ; stat human_strength ;; 
+        4) echo "zombies learned to resist against sunlight. " ; stat zombie_defense ;;
+    esac 
+}
+
 ### system functions ###########################################################
-# normal attack 
+# global attacking function
 attack_by() {
 	
-	# strength
-	
 	# limit max victims 
-	local factor=$3
-	if [ -z $3 ] ; then factor=1 ; fi
-	
-	
+	local factor=$2
+	if [ -z $2 ] ; then factor=1 ; fi
 	
     if [ $1 = zombies ]; then
         attackers=$(($RANDOM % $zombies + 2))
         defenders=$(($RANDOM % $humans + 2))
-		off=$(($attackers * $zombies_off))
-		deff=$(($defenders * $humans_deff))
+		off=$(($attackers * $zombie_strength))
+		deff=$(($defenders * $human_defense))
         if [ $off -gt $deff ]; then
             ((zombies_won++))
             victims=$(($RANDOM % $defenders / $factor + 1))
             humans=$(($humans - $victims))
             winner=zombies
             loser=humans
-        else
+        elif [ $off -lt $deff ]; then
             ((humans_won++))
             victims=$(($RANDOM % $attackers / $factor + 1))
             zombies=$(($zombies - $victims))
             winner=humans
             loser=zombies
         fi 
+		echo "ATTACK: $attackers zombies vs. $defenders humans. $victims $loser died. $winner win. ($off|$deff)" 
     elif [ $1 = humans ]; then
         attackers=$(($RANDOM % $humans + 2))
         defenders=$(($RANDOM % $zombies + 2))
-		off=$(($attackers * $humans_off))
-		deff=$(($defenders * $zombies_deff))
+		off=$(($attackers * $human_strength))
+		deff=$(($defenders * $zombie_defense))
         if [ $off -gt $deff ]; then
             ((humans_won++))
             victims=$(($RANDOM % $defenders / $factor + 1))
             zombies=$(($zombies - $victims))
             winner=humans
             loser=zombies
-        else
+        elif [ $off -lt $deff ]; then
            ((zombies_won++)) 
             victims=$(($RANDOM % $attackers / $factor + 1))
             humans=$(($humans - $victims))
             winner=zombies
             loser=humans
         fi 
-
+		echo "ATTACK: $attackers humans vs. $defenders zombies. $victims $loser died. $winner win. ($off|$deff)" 
     fi
-    echo "ATTACK: $attackers $winner vs. $defenders $loser. $winner win. $victims $loser died." 
+
+}
+
+# global stat upgrade function
+stat() {
+	local upgrade=$(($RANDOM % 100 / 4 + 1))
+	if [ $1 = human_strength ]; then
+		human_strength=$(($human_strength + $upgrade))
+		echo "INFO: human strength was raised up to $human_strength"
+	elif [ $1 = human_defense ]; then
+		human_defense=$(($human_defense + $upgrade))
+		echo "INFO: human defense was raised up to $human_defense"
+	elif [ $1 = zombie_strength ]; then
+		zombie_strength=$(($zombie_strength + $upgrade))
+		echo "INFO: zombie strength was raised up to $zombie_strength"
+	elif [ $1 = zombie_defense ]; then
+		zombie_defense=$(($zombie_defense +$upgrade))
+		echo "INFO: zombie defense was raised up to $zombie_defense"
+	fi
 }
 
 # and the winner is... who's still alive.
 population_zero() {
     if [ $humans -le 0 ] ; then
         echo "STATUS: ZOMBIES WIN!"
-        echo "* HUMANS: 0 - FIGHTS WON: $humans_won"
-        echo "* ZOMBIES: $zombies - FIGHTS WON: $zombies_won"
+        echo "* HUMANS: 0 - FIGHTS WON: $humans_won - STATS: ($human_strength|$human_defense)"
+        echo "* ZOMBIES: $zombies - FIGHTS WON: $zombies_won - STATS: ($zombie_strength|$zombie_defense)"
         echo "* ROUNDS: $round"
         exit 0
     elif [ $zombies -le 0 ]; then
@@ -237,9 +263,9 @@ trap world_explode INT
 world_explode() {
     echo
     echo "END: suddenly... the whole world explodes. bam."
-    echo "* HUMANS: $humans - FIGHTS WON: $humans_won"
-    echo "* ZOMBIES: $zombies - FIGHTS WON: $zombies_won"
-    echo "* ROUNDS: $round"
+    echo "* HUMANS:$humans - FIGHTS WON:$humans_won - STATS:($human_strength|$human_defense)"
+    echo "* ZOMBIES:$zombies - FIGHTS WON:$zombies_won - STATS:($zombie_strength|$zombie_defense)"
+    echo "* ROUNDS:$round"
     exit 0
 }
 
@@ -257,8 +283,8 @@ echo "||_.__/|_|  \__,_|_|_| |_|___(_)                            |"
 echo "|-----------------------------------------------------------|"                        
 echo "| zombie revolution environment simulator                   |" 
 echo "-------------------------------------------------------------"
-echo "STATUS: $humans humans (strength:$humans_off/defense:$humans_deff) live there."
-echo "STATUS: $zombies zombies (strength:$zombies_off/defense:$zombies_deff) live there."
+echo "STATUS: $humans humans ($human_strength|$human_defense) live there."
+echo "STATUS: $zombies zombies ($zombie_strength|$zombie_defense) live there."
 echo "INFO: let's start the story...                             "
 sleep 3
 
@@ -271,9 +297,8 @@ zombies_won=0
 
 # choose a randon event from defined functions
 while true ; do
-
-    event=$(($RANDOM % 9 + 1))
-    ((round++))
+    event=$(($RANDOM % 10 + 1))
+	((round++))
     case $event in 
         1) human_born ;;
         2) zombie_born ;;
@@ -284,10 +309,13 @@ while true ; do
         7) zombie_die ;;
         8) zombie_support ;;
         9) humans_support ;;
+		10) stats_upgrade ;;
         *) echo "STATUS: the world is...buggy." ; exit 1 ;;
     esac
-
+	# check winner
     population_zero
+
+	# fall asleep 
     sleeptime=$(($RANDOM % $maxtime + $mintime))
     sleep $sleeptime
 done
