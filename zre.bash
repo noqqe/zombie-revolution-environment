@@ -5,14 +5,30 @@
 # Date: Thursday 2010-10-14
 
 ### initial setting for your environment ######################################
+### citizens
 # number of citizens by default
 humans=250
 zombies=250
 
+### sleeptime
 # random sleeptime between events in seconds.
 # 5 - 10 seconds are recommended
 mintime=5
 maxtime=7
+
+### stats
+# strength example: 50 humans * 100 off-points = 5000 off-points 
+# defense example: 50 zombies * 80 deff-points = 4000 deff-points
+# FIGHT: humans 5000 off vs. zombies 4000 deff == humans win. 
+
+# stats for humans. 
+humans_off=100
+humans_deff=100
+
+# stats for zombies. 
+zombies_off=120
+zombies_deff=80
+
 
 ### these things could happen #################################################
 
@@ -148,18 +164,29 @@ humans_support() {
 ### system functions ###########################################################
 # normal attack 
 attack_by() {
+	
+	# strength
+	
+	# limit max victims 
+	local factor=$3
+	if [ -z $3 ] ; then factor=1 ; fi
+	
+	
+	
     if [ $1 = zombies ]; then
         attackers=$(($RANDOM % $zombies + 2))
         defenders=$(($RANDOM % $humans + 2))
-        if [ $attackers -gt $defenders ]; then
+		off=$(($attackers * $zombies_off))
+		deff=$(($defenders * $humans_deff))
+        if [ $off -gt $deff ]; then
             ((zombies_won++))
-            victims=$(($RANDOM % $defenders + 1))
+            victims=$(($RANDOM % $defenders / $factor + 1))
             humans=$(($humans - $victims))
             winner=zombies
             loser=humans
         else
             ((humans_won++))
-            victims=$(($RANDOM % $attackers + 1))
+            victims=$(($RANDOM % $attackers / $factor + 1))
             zombies=$(($zombies - $victims))
             winner=humans
             loser=zombies
@@ -167,15 +194,17 @@ attack_by() {
     elif [ $1 = humans ]; then
         attackers=$(($RANDOM % $humans + 2))
         defenders=$(($RANDOM % $zombies + 2))
-        if [ $attackers -gt $defenders ]; then
+		off=$(($attackers * $humans_off))
+		deff=$(($defenders * $zombies_deff))
+        if [ $off -gt $deff ]; then
             ((humans_won++))
-            victims=$(($RANDOM % $defenders + 1))
+            victims=$(($RANDOM % $defenders / $factor + 1))
             zombies=$(($zombies - $victims))
             winner=humans
             loser=zombies
         else
            ((zombies_won++)) 
-            victims=$(($RANDOM % $attackers + 1))
+            victims=$(($RANDOM % $attackers / $factor + 1))
             humans=$(($humans - $victims))
             winner=zombies
             loser=humans
@@ -228,7 +257,8 @@ echo "||_.__/|_|  \__,_|_|_| |_|___(_)                            |"
 echo "|-----------------------------------------------------------|"                        
 echo "| zombie revolution environment simulator                   |" 
 echo "-------------------------------------------------------------"
-echo "STATUS: $humans humans and $zombies zombies live there.    "
+echo "STATUS: $humans humans (strength:$humans_off/defense:$humans_deff) live there."
+echo "STATUS: $zombies zombies (strength:$zombies_off/defense:$zombies_deff) live there."
 echo "INFO: let's start the story...                             "
 sleep 3
 
