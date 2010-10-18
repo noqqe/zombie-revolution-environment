@@ -77,7 +77,7 @@ zombie_die() {
 
 # the zombies need braiiins!
 zombie_attack() {
-    local attack_message=$((RANDOM % 5 + 1 ))
+    local attack_message=$((RANDOM % 6 + 1 ))
     echo -n "ATTACK: " 
     case $attack_message in 
         1) echo -n "zombies raid a farm near the city!" ;;
@@ -85,6 +85,7 @@ zombie_attack() {
         3) echo -n "zombies raid a liquoer store. drunken zombies crossing." ;;
         4) echo -n "zombies hijacked a garbage truck! it crashed into the non-swimmer's pool." ;;
 		5) echo -n "do you know the movie \"braindeath\"? the zombie with his lawnmower? he's here. exactly." ;;
+		6) echo -n "rebellion!" ;;
     esac
     echo 
     attack_by zombies
@@ -97,10 +98,9 @@ human_attack() {
     case $attack_message in 
         1) echo -n "humans developed counter-poison. a new hope?" ;;
         2) echo -n "the army sent a huge amount of weapons to the civils." ;;
-        3) echo -n "humans raid the zombies headerquarter" ;;
+        3) echo -n "humans raid the zombies headerquarter." ;;
         4) echo -n "the humans requested an airstrike by the nato. and get it." ;;
-        5) echo -n "there is no zombie content without shotguns. humans attack zombies with thier shotguns " ;;
-		6) echo -n "zombies and themself"
+        5) echo -n "there is no zombie content without shotguns. humans attack zombies with thier shotguns." ;;
     esac
     echo
     attack_by humans
@@ -111,8 +111,8 @@ human_attack() {
 infos() {
     local info=$(($RANDOM % 2 + 1))
     case $info in
-        1) echo "INFO: humans:$humans - fights won:$humans_won - round=$round" ;;
-        2) echo "INFO: zombies:$zombies - fights won: $zombies_won - round=$round" ;;
+        1) echo "INFO: humans:$humans - fights won:$humans_won - round:$round" ;;
+        2) echo "INFO: zombies:$zombies - fights won:$zombies_won - round:$round" ;;
     esac
 }
 
@@ -139,8 +139,8 @@ humans_support() {
     echo -n "SUPPORT: "
     case $support_msg in 
         1) echo -n "some policemen joined the humans." ;;
-        2) echo -n "some evil ninjas joined the humans" ;;
-        3) echo -n "saving private ryan. zombie edition" ;; 
+        2) echo -n "some evil ninjas joined the humans." ;;
+        3) echo -n "saving private ryan. zombie edition." ;; 
     esac
     echo " the humans get $size people support. $humans humans alive"
 }
@@ -242,7 +242,7 @@ zombies_won=0
 # choose a randon event from defined functions
 while true ; do
 
-    event=$(($RANDOM %10 +1))
+    event=$(($RANDOM % 9 + 1))
     ((round++))
     case $event in 
         1) human_born ;;
