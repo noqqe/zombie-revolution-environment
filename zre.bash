@@ -125,8 +125,8 @@ human_attack() {
 infos() {
     local info_msg=$(($RANDOM % 2 + 1))
     case $info_msg in
-        1) echo "INFO: humans:$humans($human_strength|$human_defense) wins:$humans_won round:$round" ;;
-        2) echo "INFO: zombies:$zombies($zombie_strength|$zombie_defense) wins:$zombies_won round:$round" ;;
+        1) echo "INFO: humans:$humans($human_strength|$human_defense) wins:$humans_won day:$day" ;;
+        2) echo "INFO: zombies:$zombies($zombie_strength|$zombie_defense) wins:$zombies_won day:$day" ;;
     esac
 }
 
@@ -165,11 +165,37 @@ stats_upgrade() {
 	local upgrade_msg=$(($RANDOM % 4 + 1))
 	echo -n "INFO: "
 	case $upgrade_msg in 
-        1) echo "humans built a wall around thier city. " ; stat human_defense ;;
+        1) echo "humans built a wall around their city. " ; stat human_defense ;;
         2) echo "zombies learned to handle chainsaws. rawr. " ; stat zombie_strength ;;
         3) echo "humans got ak-47s as weapons. " ; stat human_strength ;; 
         4) echo "zombies learned to resist against sunlight. " ; stat zombie_defense ;;
     esac 
+}
+
+nature() {
+	local hard_mode=$(($RANDOM % 10))
+	if [ $hard_mode -lt 1 ] || [ ${1:-normal} = hard ]; then
+		local nature_msg=$(($RANDOM % 3 + 1))
+		echo -n "INFO: "
+		case $nature_msg in
+			1) echo "a vulcano explodes." ;;
+			2) echo "an earthquakes joggles the city." ;;
+			3) echo "a hurricane hits the city." ;;
+		esac
+		local human_victims=$(($RANDOM % $humans +2))
+		local zombie_victims=$(($RANDOM % $zombies +2))
+		humans=$(($humans - $human_victims))
+		zombies=$(($zombies - $zombie_victims))
+		echo "INFO: $human_victims humans and $zombie_victims zombies were killed."
+	else
+		local nature_msg=$(($RANDOM % 3 + 1))
+		echo -n "INFO: "
+		case $nature_msg in 
+			1) echo "damn rain." ;;
+			2) echo "snow in the city." ;;
+			3) echo "gna. about 40 degrees. heat." ;;
+		esac
+	fi
 }
 
 ### system functions ###########################################################
@@ -241,20 +267,26 @@ stat() {
 }
 
 # and the winner is... who's still alive.
-population_zero() {
+population() {
     if [ $humans -le 0 ] ; then
         echo "STATUS: ZOMBIES WIN!"
         echo "* HUMANS: 0 - FIGHTS WON: $humans_won - STATS: ($human_strength|$human_defense)"
         echo "* ZOMBIES: $zombies - FIGHTS WON: $zombies_won - STATS: ($zombie_strength|$zombie_defense)"
-        echo "* ROUNDS: $round"
+        echo "* DAYS: $day"
         exit 0
     elif [ $zombies -le 0 ]; then
         echo "STATUS: HUMANS WIN!"
         echo "* HUMANS: $humans - FIGHTS WON: $humans_won"
         echo "* ZOMBIES: 0 - FIGHTS WON: $zombies_won"
-        echo "* ROUNDS: $round"
+        echo "* DAYS: $day"
         exit 0
     fi
+
+	# population limit 300.000 members
+	if [ $humans -gt 300000 ] || [ $zombies -gt 300000 ]; then
+		nature hard
+		((day++))
+	fi
 }
 
 
@@ -265,7 +297,7 @@ world_explode() {
     echo "END: suddenly... the whole world explodes. bam."
     echo "* HUMANS:$humans - FIGHTS WON:$humans_won - STATS:($human_strength|$human_defense)"
     echo "* ZOMBIES:$zombies - FIGHTS WON:$zombies_won - STATS:($zombie_strength|$zombie_defense)"
-    echo "* ROUNDS:$round"
+    echo "* DAY:$day"
     exit 0
 }
 
@@ -285,11 +317,11 @@ echo "| zombie revolution environment simulator                   |"
 echo "-------------------------------------------------------------"
 echo "STATUS: $humans humans ($human_strength|$human_defense) live there."
 echo "STATUS: $zombies zombies ($zombie_strength|$zombie_defense) live there."
-echo "INFO: let's start the story...                             "
+echo "INFO: let's start at day 1"
 sleep 3
 
 # counting the events
-round=1
+day=1
 
 # fights won for stats
 humans_won=0
@@ -297,8 +329,9 @@ zombies_won=0
 
 # choose a randon event from defined functions
 while true ; do
-    event=$(($RANDOM % 10 + 1))
-	((round++))
+    event=$(($RANDOM % 11 + 1))
+	# event=11
+	((day++))
     case $event in 
         1) human_born ;;
         2) zombie_born ;;
@@ -310,12 +343,14 @@ while true ; do
         8) zombie_support ;;
         9) humans_support ;;
 		10) stats_upgrade ;;
+		11) nature ;;
         *) echo "STATUS: the world is...buggy." ; exit 1 ;;
     esac
 	# check winner
-    population_zero
+    population
 
 	# fall asleep 
     sleeptime=$(($RANDOM % $maxtime + $mintime))
+    # s
     sleep $sleeptime
 done
