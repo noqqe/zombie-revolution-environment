@@ -17,9 +17,8 @@ playing with zombies
 
 usage is simple. get it and run zre.bash.
 
-`$ git clone git://github.com/noqqe/zombie-revolution-environment.git`
-
-`$ ./zre.bash`
+    $ git clone git://github.com/noqqe/zombie-revolution-environment.git
+    $ ./zre.bash
 
 see zre.example for gameplay.
 
@@ -32,26 +31,21 @@ defense and strength.
 
 lets' have a look at the example: humans attack zombies.
 
-`strength example: 50 humans * 100 strength-points = 5000 strength-points`
-
-`defense example: 50 zombies * 80 defense-points = 4000 defense-points`
-
-`fight: humans 5000 strength vs. zombies 4000 defense`
-
-`result: humans win.`
+    strength example: 50 humans * 100 strength-points = 5000 strength-points
+    defense example: 50 zombies * 80 defense-points = 4000 defense-points
+    fight: humans 5000 strength vs. zombies 4000 defense
+    result: humans win.
 
 basic stats for humans:
 
-humans_off=100
-
-humans_deff=100
+    humans_off=100
+    humans_deff=100
 
 
 basic stats for zombies.
 
-zombies_off=120
-
-zombies_deff=80
+    zombies_off=120
+    zombies_deff=80
 
 create new events by yourself
 -----------------------------
