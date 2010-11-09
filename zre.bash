@@ -21,7 +21,7 @@ done
 ### system functions ###########################################################
 
 # parse library functions
-LIBRARY="./lib/*.lib"
+LIBRARY="./lib/*.zre"
 for lib in $LIBRARY
 do
   source $lib
