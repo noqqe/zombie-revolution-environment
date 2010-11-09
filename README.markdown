@@ -1,4 +1,4 @@
-#zombie (r)evolution environment 
+zombie (r)evolution environment 
 ================================
 
 the zombie (r)evolution environment simulator (i just call it zre) is kind of... uhm...yeah. 
