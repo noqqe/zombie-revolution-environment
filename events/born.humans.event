@@ -1,0 +1,14 @@
+# the wonder of life
+human_born() {
+    ((humans++))
+    local born_msg=$(($RANDOM % 5 + 1))
+    echo -n "BORN: 1 human was born. "
+    case $born_msg in 
+        1) echo -n "it was a cold night, about 9 month ago..." ;;
+        2) echo -n "he will be the next bofh." ;;
+        3) echo -n "it's a pirate! argh." ;;
+        4) echo -n "his name is bob." ;;
+        5) echo -n "her name is alice." ;;
+    esac
+    echo " $humans humans alive."
+}

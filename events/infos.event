@@ -1,0 +1,8 @@
+# lets have a look at the stats 
+infos() {
+    local info_msg=$(($RANDOM % 2 + 1))
+    case $info_msg in
+        1) echo "INFO: humans:$humans($human_strength|$human_defense) wins:$humans_won day:$day" ;;
+        2) echo "INFO: zombies:$zombies($zombie_strength|$zombie_defense) wins:$zombies_won day:$day" ;;
+    esac
+}

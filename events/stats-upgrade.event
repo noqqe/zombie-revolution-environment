@@ -1,0 +1,10 @@
+stats_upgrade() {
+local upgrade_msg=$(($RANDOM % 4 + 1))
+echo -n "INFO: "
+case $upgrade_msg in
+        1) echo "humans built a wall around their city. " ; stat human_defense ;;
+        2) echo "zombies learned to handle chainsaws. rawr. " ; stat zombie_strength ;;
+        3) echo "humans got ak-47s as weapons. " ; stat human_strength ;;
+        4) echo "zombies learned to resist against sunlight. " ; stat zombie_defense ;;
+    esac
+}

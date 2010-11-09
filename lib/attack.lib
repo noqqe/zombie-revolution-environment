@@ -1,0 +1,48 @@
+# global attacking function
+attack_by() {
+	
+	# limit max victims 
+	local factor=$2
+	if [ -z $2 ] ; then factor=1 ; fi
+	
+    if [ $1 = zombies ]; then
+        attackers=$(($RANDOM % $zombies + 2))
+        defenders=$(($RANDOM % $humans + 2))
+		off=$(($attackers * $zombie_strength))
+		deff=$(($defenders * $human_defense))
+        if [ $off -gt $deff ]; then
+            ((zombies_won++))
+            victims=$(($RANDOM % $defenders / $factor + 1))
+            humans=$(($humans - $victims))
+            winner=zombies
+            loser=humans
+        elif [ $off -lt $deff ]; then
+            ((humans_won++))
+            victims=$(($RANDOM % $attackers / $factor + 1))
+            zombies=$(($zombies - $victims))
+            winner=humans
+            loser=zombies
+        fi 
+		echo "ATTACK: $attackers zombies vs. $defenders humans. $victims $loser died. $winner win. ($off|$deff)" 
+    elif [ $1 = humans ]; then
+        attackers=$(($RANDOM % $humans + 2))
+        defenders=$(($RANDOM % $zombies + 2))
+		off=$(($attackers * $human_strength))
+		deff=$(($defenders * $zombie_defense))
+        if [ $off -gt $deff ]; then
+            ((humans_won++))
+            victims=$(($RANDOM % $defenders / $factor + 1))
+            zombies=$(($zombies - $victims))
+            winner=humans
+            loser=zombies
+        elif [ $off -lt $deff ]; then
+           ((zombies_won++)) 
+            victims=$(($RANDOM % $attackers / $factor + 1))
+            humans=$(($humans - $victims))
+            winner=zombies
+            loser=humans
+        fi 
+		echo "ATTACK: $attackers humans vs. $defenders zombies. $victims $loser died. $winner win. ($off|$deff)" 
+    fi
+
+}

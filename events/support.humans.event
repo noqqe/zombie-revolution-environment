@@ -1,0 +1,14 @@
+# the humans get X members support
+humans_support() {
+    local size=$(($RANDOM % $humans / 2 + 2))
+    humans=$(($humans + $size))
+    
+	local support_msg=$(($RANDOM % 3 + 1))
+    echo -n "SUPPORT: "
+    case $support_msg in 
+        1) echo -n "some policemen joined the humans." ;;
+        2) echo -n "some evil ninjas joined the humans." ;;
+        3) echo -n "saving private ryan. zombie edition." ;; 
+    esac
+    echo " the humans get $size people support. $humans humans alive"
+}

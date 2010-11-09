@@ -1,0 +1,12 @@
+# just kidding. zombies can't die.
+zombie_die() {
+    ((zombies--))
+    local die_msg=$(($RANDOM % 3 + 1))
+    echo -n "DIED: 1 zombie died. "
+    case $die_msg in
+        1) echo -n "farmished, maybe?" ;;
+        2) echo -n "he watched the sunrise." ;;
+        3) echo -n "he lost his legs." ;;
+    esac
+    echo " $zombies zombies alive."
+}

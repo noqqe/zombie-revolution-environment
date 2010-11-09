@@ -1,0 +1,15 @@
+# the zombies get X undeads support
+zombie_support() {
+    local size=$(($RANDOM % $zombies /2 + 2))
+	local support=$(($RANDOM % 4 + 1))
+    zombies=$(($zombies + $size))
+    
+    echo -n "SUPPORT: "
+    case $support in 
+        1) echo -n "some zombies called friends to destroy the humans." ;;
+        2) echo -n "a green toxic cloud over the graveyard results?" ;;
+        3) echo -n "another graveyard has opened." ;; 
+        4) echo -n "what has a dogs head, a cats tail, and brains all over its face? A Zombie coming out of the pet store."
+    esac
+    echo " the zombies get $size undeads support. $zombies zombies alive"
+}

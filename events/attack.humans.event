@@ -1,0 +1,14 @@
+# the human attack
+human_attack() {
+    local attack_msg=$((RANDOM % 5 + 1 ))
+    echo -n "ATTACK: "
+    case $attack_msg in 
+        1) echo -n "humans developed counter-poison. a new hope?" ;;
+        2) echo -n "the army sent a huge amount of weapons to the civils." ;;
+        3) echo -n "humans raid the zombies headerquarter." ;;
+        4) echo -n "the humans requested an airstrike by the nato. and get it." ;;
+        5) echo -n "there is no zombie content without shotguns. humans attack zombies with thier shotguns." ;;
+    esac
+    echo
+    attack_by humans
+}

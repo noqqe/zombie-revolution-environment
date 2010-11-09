@@ -1,0 +1,25 @@
+nature() {
+	local hard_mode=$(($RANDOM % 10))
+	if [ $hard_mode -lt 1 ] || [ ${1:-normal} = hard ]; then
+		local nature_msg=$(($RANDOM % 3 + 1))
+		echo -n "INFO: "
+		case $nature_msg in
+			1) echo "a vulcano explodes." ;;
+			2) echo "an earthquakes joggles the city." ;;
+			3) echo "a hurricane hits the city." ;;
+		esac
+		local human_victims=$(($RANDOM % $humans +2))
+		local zombie_victims=$(($RANDOM % $zombies +2))
+		humans=$(($humans - $human_victims))
+		zombies=$(($zombies - $zombie_victims))
+		echo "INFO: $human_victims humans and $zombie_victims zombies were killed."
+	else
+		local nature_msg=$(($RANDOM % 3 + 1))
+		echo -n "INFO: "
+		case $nature_msg in 
+			1) echo "it's raining." ;;
+			2) echo "snow in the city." ;;
+			3) echo "gna. about 40 degrees. heat." ;;
+		esac
+	fi
+}

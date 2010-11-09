@@ -1,0 +1,15 @@
+# another wonder of life
+zombie_born() {
+    ((zombies++))
+    local born_msg=$(($RANDOM % 5 + 1))
+    echo -n "BORN: 1 zombie awaked! "
+    case $born_msg in 
+        1) echo -n "omg. it's michael jackson. " ;;
+        2) echo -n "coffee at his grave." ;;
+        3) echo -n "it's dr. hills project." ;;
+        4) echo -n "brains. uargh." ;;
+        5) echo -n "vegetarian zombie. grains!" ;;
+    esac
+    echo " $zombies zombies alive."
+
+}
