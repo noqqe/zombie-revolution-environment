@@ -19,7 +19,7 @@ usage is simple. get it and run zre.bash.
 
     $ git clone git://github.com/noqqe/zombie-revolution-environment.git
     $ cd zombie-revolution-environment
-	$ ./zre.bash
+    $ ./zre.bash
 
 see zre.example for gameplay.
 
