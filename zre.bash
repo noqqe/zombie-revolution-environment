@@ -51,7 +51,7 @@ sleep 3
 ### runtime
 while true ; do
 	
-	# parse events and count i	t
+	# parse events and count it
 	random_event=$(($RANDOM % $(ls events/ | wc -l) + 1))
 	
 	# get random event
