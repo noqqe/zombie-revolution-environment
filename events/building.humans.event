@@ -1,0 +1,45 @@
+#!/bin/bash
+# humans start build a rocket-station
+# if its ready the humans will be able to 
+# send a huge  rocket to the zombies. 
+# bam!
+
+human_building() {
+	
+	# define when building is ready
+	build=7
+	
+	# define standard-level
+	if [ -z $buildlvl ] ; then
+		buildlvl=0
+	fi
+		
+	# increase build level if defined and less than max level
+	if [ ! -z $buildlvl ] ; then
+		((buildlvl++))
+	fi
+	
+	# build levels 1 - all between - final level
+	if [ $buildlvl -eq 1 ]; then
+		echo -n "BUILDING: humans started to build a rocket station to defeat zombies. "
+	elif [ $buildlvl -lt $build ]; then 
+		echo -n "BUILDING: further steps by building the rocket station. " 	
+	elif [ $buildlvl -eq $build ]; then
+		echo -n "BUILDING: finally the rocket station is ready! " 
+	fi
+	
+	# print status if not already reached
+	if [ $buildlvl -le $build ]; then
+		echo "rocket station status: ($buildlvl|$build)"
+	fi 
+		
+	# attack if rocket station is ready	
+	if [ $buildlvl -ge $build ]; then
+		echo "ATTACK: the humans send their rocket to the zombies!"
+		victims=$(($RANDOM % $zombies + 1  * 2 ))
+        zombies=$(($zombies - $victims))
+        echo "ATTACK: $victims zombies killed! $zombies zombies alive"
+        ((humans_won++))
+    fi
+	
+}
