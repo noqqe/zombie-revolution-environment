@@ -66,7 +66,7 @@ while true ; do
     population
 
 	# increase day
-    # time_goes_by
+    time_goes_by
 	((day++))
 
 	# fall asleep 
