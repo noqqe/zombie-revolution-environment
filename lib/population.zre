@@ -16,7 +16,7 @@ population() {
 
 	# population limit 300.000 members
 	if [ $humans -gt 300000 ] || [ $zombies -gt 300000 ]; then
-		nature hard
+		weather hard
 		((day++))
 	fi
 }
