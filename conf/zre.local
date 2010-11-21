@@ -1,0 +1,22 @@
+### zre.local
+# overwrite your favorite settings here. 
+# dont be shy
+# some examples shown below
+
+### citizens
+# humans=100000
+# zombies=100
+
+### sleeptime
+# mintime=5
+# maxtime=7
+
+### stats
+# stats for humans. 
+# human_strength=100
+# human_defense=100
+
+# stats for zombies. 
+# zombie_strength=150
+# zombie_defense=50
+
