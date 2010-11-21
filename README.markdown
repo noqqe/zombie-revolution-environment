@@ -23,8 +23,29 @@ usage is simple. get it and run zre.bash.
 
 see zre.example for gameplay.
 
-rules
------
+the environment and it's events
+-------------------------------
+
+there's a handful of events in zre. 
+
+* born: a new member gets born. no matter which side.
+
+* die: the title already faced it. a member dies.
+
+* info: prints some informations about a random side.
+
+* attack: one side decides to attack the other.
+
+* support: a side gets support. usually a random number of existing members.
+
+* stats: upgrade of standard stats (100|100) to (112|100) for example
+
+* nature: prints some informations about weather and sometimes a vulcano explodes or something.
+
+* building: the humans build a rocket station or something. Seven steps to make the rocket ready!
+
+attack rules
+------------
 
 both sides got _strength_ and _defense_ skills. 
 skills are around 100 points. each human/zombie got 100 skillpoints in

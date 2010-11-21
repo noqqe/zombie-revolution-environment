@@ -1,7 +1,7 @@
 zombies_stats() {
 
 local upgrade_msg=$(($RANDOM % 2 + 1))
-echo -n "INFO: "
+echo -n "STATS: "
 
 case $upgrade_msg in
     1) echo "zombies learned to handle chainsaws. rawr. " ; stat zombie_strength ;;
