@@ -9,6 +9,11 @@
 # include config 
 source conf/zre.conf
 
+# include local conf if exists
+if [ -r conf/zre.local ]; then
+    source conf/zre.local
+fi
+
 ### these things could happen #################################################
 
 # parse events from event/
