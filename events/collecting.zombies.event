@@ -15,7 +15,7 @@
 zombie_collectinging() {
 	
 	# define when collecting is ready
-	collecting=6
+	collecting=7
 	
 	# define standard-level
 	if [ -z $collectinglvl ] ; then
