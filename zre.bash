@@ -16,7 +16,6 @@ EVENTS="./events/*.event"
 for event in $EVENTS
 do
   source $event
-  echo $event
 done
 
 ### system functions ###########################################################
@@ -26,7 +25,6 @@ LIBRARY="./lib/*.zre"
 for lib in $LIBRARY
 do
   source $lib
-  echo $lib
 done
 
 ### create new world. this is the runtime #####################################
