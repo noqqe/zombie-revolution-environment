@@ -18,10 +18,9 @@
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/var/www/zombies.n0q.org/bin
 NAME=zre.bash
-DAEMON=/var/www/zombies.n0q.org/bin/${NAME}
-PIDFILE=/var/www/zombies.n0q.org/bin/zre.pid
+DAEMON=path/to/
+PIDFILE=path/to/zre.pid
 DESC=zre.bash
-OUTPUT=/var/www/zombies.n0q.org/dynamics/game.txt
 
 test -x $DAEMON || exit 0
 
