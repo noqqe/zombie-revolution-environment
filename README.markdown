@@ -79,6 +79,57 @@ add own events to zre.
  * define your special stuff in there
  * run zre.bash
 
+daemon mode
+-----------
+
+there is a little --daemon gaming mode to print the output in a defined file. see conf/zre.conf for output file. 
+
+since zre is used for web on zombies.n0q.org, there is a little debian init script in doc/ to use it on servers easily. this script is not nessecary for normal use. 
+
+    ./zre-init start|stop|restart
+
+attention:
+do not use the init script without understanding/modificating it!
+
+sql statistics module
+----------------------
+
+the sql statistics module could be enabled by 
+
+    $ vim conf/sql.conf
+    # turn sqlmodule on or off
+    sqlmodule=on
+    
+   
+this module is very additional. it is just used for additional informations for long time game environment, like in zombies.n0q.org. I'm gonna track some informations in a local mysql database. It's just because i love statistics. 
+
+If you want to turn it on, fill in the following informations
+
+    # turn sqlmodule on or off
+    sqlmodule=off
+
+    # sql database host
+    sqlhost=localhost
+
+    # sql database user
+    sqluser=dbuser
+
+    # sql database password
+    sqlpw=dbpassword
+
+    # sql database
+    sqldb=sqldatabase
+    
+and at least, create the database and its structure:
+
+    mysql -u root -p DBNAME < doc/zre_database.sql 
+
+
+there is a little module in lib/sqlzre.library.bash. it is taking all the informations and send it automatically to the sql server. see the bash script for further details. 
+
+    sqlzre.library.bash
+    
+the module is turned off by default
 
 bugs and ideas
 -------------

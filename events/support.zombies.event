@@ -3,7 +3,7 @@ zombie_support() {
     local size=$(($RANDOM % $zombies /2 + 2))
 	local support=$(($RANDOM % 4 + 1))
     zombies=$(($zombies + $size))
-    
+    zresql support zombie $size 
     echo -n "SUPPORT: "
     case $support in 
         1) echo -n "some zombies called friends to destroy the humans." ;;

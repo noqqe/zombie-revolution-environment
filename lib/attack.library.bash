@@ -47,6 +47,7 @@ attack_by() {
 		if [ $off -gt $deff ]; then
             ((zombies_won++))
             victims=$(($RANDOM % $defenders / $factor + 1))
+            zresql kill zombie $victims
             humans=$(($humans - $victims))
             winner=zombies
             loser=humans
@@ -55,6 +56,7 @@ attack_by() {
 		elif [ $off -lt $deff ]; then
             ((humans_won++))
             victims=$(($RANDOM % $attackers / $factor + 1))
+            zresql kill human $victims
             zombies=$(($zombies - $victims))
             winner=humans
             loser=zombies
@@ -78,6 +80,7 @@ attack_by() {
             ((humans_won++))
             victims=$(($RANDOM % $defenders / $factor + 1))
             zombies=$(($zombies - $victims))
+            zresql kill human $victims
             winner=humans
             loser=zombies
 
@@ -86,6 +89,7 @@ attack_by() {
            ((zombies_won++)) 
             victims=$(($RANDOM % $attackers / $factor + 1))
             humans=$(($humans - $victims))
+            zresql kill zombie $victims
             winner=zombies
             loser=humans
         fi 

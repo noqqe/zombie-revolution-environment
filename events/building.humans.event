@@ -22,10 +22,13 @@ human_building() {
 	# build levels 1 - all between - final level
 	if [ $buildlvl -eq 1 ]; then
 		echo -n "BUILDING: humans started to build a rocket station to defeat zombies. "
+        zresql buildings human rocketstation $buildlvl 0 
 	elif [ $buildlvl -lt $build ]; then 
 		echo -n "BUILDING: further steps by building the rocket station. " 	
+        zresql buildings human rocketstation $buildlvl 0 
 	elif [ $buildlvl -eq $build ]; then
 		echo -n "BUILDING: finally the rocket station is ready! " 
+        zresql buildings human rocketstation $buildlvl 1 
 	fi
 	
 	# print status if not already reached

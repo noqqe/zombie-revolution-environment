@@ -3,6 +3,7 @@ zombie_born() {
     ((zombies++))
     local born_msg=$(($RANDOM % 5 + 1))
     echo -n "BORN: 1 zombie awaked! "
+    zresql born zombie
     case $born_msg in 
         1) echo -n "omg. it's michael jackson. " ;;
         2) echo -n "coffee at his grave." ;;

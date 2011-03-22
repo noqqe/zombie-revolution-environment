@@ -1,0 +1,94 @@
+#! /bin/sh
+#		Written by Miquel van Smoorenburg <miquels@cistron.nl>.
+#		Modified for Debian
+#		by Ian Murdock <imurdock@gnu.ai.mit.edu>.
+#
+# Version:	@(#)skeleton  1.9  26-Feb-2001  miquels@cistron.nl
+# zre-init: v1 2011/03/03 Florian Baumann <flo@noqqe.de> 
+
+### BEGIN INIT INFO
+# Provides: postfwd
+# Required-Start: $local_fs $network $remote_fs $syslog
+# Required-Stop: $local_fs $network $remote_fs $syslog
+# Default-Start:  2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: start and stop the zre.bash daemon 
+# Description: a Zombie Revolution Emulator game written in Bash.
+### END INIT INFO
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/var/www/zombies.n0q.org/bin
+NAME=zre.bash
+DAEMON=/var/www/zombies.n0q.org/bin/${NAME}
+PIDFILE=/var/www/zombies.n0q.org/bin/zre.pid
+DESC=zre.bash
+OUTPUT=/var/www/zombies.n0q.org/dynamics/game.txt
+
+test -x $DAEMON || exit 0
+
+not_configured () {
+        echo "#### WARNING ####"
+        echo "${NAME} won't be started/stopped unless it is configured."
+        echo "If you want to start ${NAME} as daemon, see /etc/default/${NAME}."
+        echo "#################"
+        exit 0
+}
+
+no_configfile () {
+	echo "#### WARNING ####"
+	echo "${NAME} won't be started/stopped unless a rules file is provided at $CONF."
+	echo "#################"
+	exit 0
+}
+
+# check if zre is configured or not
+if [ ! -r "/var/www/zombies.n0q.org/bin/conf/zre.conf" ]
+then
+        not_configured
+fi
+
+set -e
+
+case "$1" in
+  start)
+    if [ $(ps aux | grep $NAME | wc -l) -ge 2 ] ; then
+          echo "$NAME already running"
+    else
+	    echo -n "Starting $DESC: "
+        while true ; do $DAEMON ; done &
+	    echo "$NAME."
+    fi
+	;;
+  stop)
+      if [ $(ps aux | grep $NAME | wc -l) -ge 2 ] ; then
+	    echo -n "Stopping $DESC: "
+        kill $(cat $PIDFILE) || pkill $NAME
+        echo "RETURN: $?"
+        rm $PIDFILE
+    echo "$NAME."
+    else
+        echo "$NAME not running."
+    fi
+	;;
+  restart)
+	echo -n "Restarting $DESC (incl. cache): "
+	        $0 stop
+        	sleep 1
+	        $0 start
+	echo "$NAME."
+	;;
+  status)
+      echo -n "Status is: "
+      if [ $(ps aux | grep $NAME | wc -l) -ge 2 ] ; then
+          echo "running."
+      else
+          echo "not running."
+      fi
+      ;;
+  *)
+	N=$0
+	echo "Usage: $N {start|status|stop|restart}" >&2
+	exit 1
+	;;
+esac
+
+exit 0

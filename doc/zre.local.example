@@ -1,5 +1,6 @@
 ### zre.local
-# overwrite your favorite settings here. 
+# copy doc/zre.local.example to conf/zre.local 
+# to overwrite your favorite settings 
 # dont be shy
 # some examples shown below
 

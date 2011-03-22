@@ -2,7 +2,7 @@
 humans_support() {
     local size=$(($RANDOM % $humans / 2 + 2))
     humans=$(($humans + $size))
-    
+    zresql support human $size 
 	local support_msg=$(($RANDOM % 3 + 1))
     echo -n "SUPPORT: "
     case $support_msg in 

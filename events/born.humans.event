@@ -2,6 +2,7 @@
 human_born() {
     ((humans++))
     local born_msg=$(($RANDOM % 5 + 1))
+    zresql born human 
     echo -n "BORN: 1 human was born. "
     case $born_msg in 
         1) echo -n "it was a cold night, about 9 month ago..." ;;

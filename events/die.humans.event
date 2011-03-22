@@ -1,6 +1,7 @@
 # the end of life..
 human_die() {
     ((humans--))
+    zresql death zombie
     local die_msg=$(($RANDOM % 3 + 1))
     echo -n "DIED: 1 humand died. "
     case $die_msg in

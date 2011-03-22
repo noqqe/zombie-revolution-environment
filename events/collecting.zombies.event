@@ -1,0 +1,57 @@
+#!/bin/bash
+#
+# -------------------------------------------------------------------------------
+# Zombies, with respect to their poor brain capacity or just because they are
+# too lazy, are not fond of collectinging things like humans.  They prefer
+# collecting stuffs to use them to kill or weaken humans so that they can more
+# easily eat their brainnnnnnns.
+# -------------------------------------------------------------------------------
+#
+# zombies start collecting to biohazard trash
+# if it's ready the zombies will be able to
+# contaminate humans and kill some of them
+# ouch!
+
+zombie_collecting() {
+	
+	# define when collecting is ready
+	collecting=7
+	
+	# define standard-level
+	if [ -z $collectinglvl ] ; then
+		collectinglvl=0
+	fi
+		
+	# increase collecting level if defined and less than max level
+	if [ ! -z $collectinglvl ] ; then
+		((collectinglvl++))
+	fi
+	
+	# collecting levels 1 - all between - final level
+	if [ $collectinglvl -eq 1 ]; then
+		echo -n "COLLECTING: zombies started to collect biohazard trash to defeat humans. "
+        zresql buildings zombie biohazard $buildlvl 0
+	elif [ $collectinglvl -lt $collecting ]; then 
+		echo -n "COLLECTING: further steps by collecting their filthy trash. " 	
+        zresql buildings zombie biohazard $buildlvl 0
+	elif [ $collectinglvl -eq $collecting ]; then
+		echo -n "COLLECTING: finally the collecting is ready! " 
+        zresql buildings zombie biohazard $buildlvl 1 
+	fi
+	
+	# print status if not already reached
+	if [ $collectinglvl -le $collecting ]; then
+		echo "biohazard trash status: ($collectinglvl|$collecting)"
+	fi 
+		
+	# attack if collecting is ready	
+	if [ $collectinglvl -ge $collecting ]; then
+		echo "ATTACK: the zombies send their filthy and contaminated trash to the humans!"
+		victims=$(($RANDOM % $humans + 1 * 2 ))
+        humans=$(($humans - $victims))
+        echo "ATTACK: $victims humans killed! $humans humans alive"
+        ((zombies_won++))
+    fi
+	
+}
+

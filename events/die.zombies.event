@@ -2,6 +2,7 @@
 zombie_die() {
     ((zombies--))
     local die_msg=$(($RANDOM % 3 + 1))
+    zresql death zombie
     echo -n "DIED: 1 zombie died. "
     case $die_msg in
         1) echo -n "farmished, maybe?" ;;
