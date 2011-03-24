@@ -3,11 +3,11 @@ human_die() {
     ((humans--))
     zresql death zombie
     local die_msg=$(($RANDOM % 3 + 1))
-    echo -n "DIED: 1 humand died. "
+    echo -n "DIED: 1 human died. "
     case $die_msg in
-        1) echo -n "he ran into a rake." ;;
-        2) echo -n "his lolcat killed him." ;;
-        3) echo -n "judgement: electric chair for useless use of cat in bashscripts." ;;
+        1) echo -n "He ran into a rake." ;;
+        2) echo -n "His lolcat killed him." ;;
+        3) echo -n "Judgement: electric chair for useless use of cat in bash scripts." ;;
     esac
     echo " $humans humans alive."
      

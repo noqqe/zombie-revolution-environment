@@ -2,7 +2,7 @@
 #
 # -------------------------------------------------------------------------------
 # Zombies, with respect to their poor brain capacity or just because they are
-# too lazy, are not fond of collectinging things like humans.  They prefer
+# too lazy, are not fond of collecting things like humans.  They prefer
 # collecting stuffs to use them to kill or weaken humans so that they can more
 # easily eat their brainnnnnnns.
 # -------------------------------------------------------------------------------
@@ -29,24 +29,24 @@ zombie_collecting() {
 	
 	# collecting levels 1 - all between - final level
 	if [ $collectinglvl -eq 1 ]; then
-		echo -n "COLLECTING: zombies started to collect biohazard trash to defeat humans. "
+		echo -n "COLLECTING: Zombies started to collect biohazard trash to defeat humans. "
         zresql buildings zombie biohazard $buildlvl 0
 	elif [ $collectinglvl -lt $collecting ]; then 
-		echo -n "COLLECTING: further steps by collecting their filthy trash. " 	
+		echo -n "COLLECTING: Further progress made collecting their filthy trash. " 	
         zresql buildings zombie biohazard $buildlvl 0
 	elif [ $collectinglvl -eq $collecting ]; then
-		echo -n "COLLECTING: finally the collecting is ready! " 
+		echo -n "COLLECTING: Finally the collecting is ready! " 
         zresql buildings zombie biohazard $buildlvl 1 
 	fi
 	
 	# print status if not already reached
 	if [ $collectinglvl -le $collecting ]; then
-		echo "biohazard trash status: ($collectinglvl|$collecting)"
+		echo "Biohazard trash status: ($collectinglvl|$collecting)"
 	fi 
 		
 	# attack if collecting is ready	
 	if [ $collectinglvl -ge $collecting ]; then
-		echo "ATTACK: the zombies send their filthy and contaminated trash to the humans!"
+		echo "ATTACK: The zombies send their filthy and contaminated trash to the humans!"
 		victims=$(($RANDOM % $humans + 1 * 2 ))
         humans=$(($humans - $victims))
         echo "ATTACK: $victims humans killed! $humans humans alive"

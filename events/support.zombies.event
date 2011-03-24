@@ -6,10 +6,10 @@ zombie_support() {
     zresql support zombie $size 
     echo -n "SUPPORT: "
     case $support in 
-        1) echo -n "some zombies called friends to destroy the humans." ;;
-        2) echo -n "a green toxic cloud over the graveyard results?" ;;
-        3) echo -n "another graveyard has opened." ;; 
-        4) echo -n "what has a dogs head, a cats tail, and brains all over its face? A Zombie coming out of the pet store."
+        1) echo -n "Some zombies called in their friends to destroy the humans." ;;
+        2) echo -n "A green toxic cloud over the graveyard results?" ;;
+        3) echo -n "Another graveyard has opened." ;; 
+        4) echo -n "What has a dogs head, a cats tail, and brains all over its face? A zombie coming out of the pet store."
     esac
     echo " the zombies get $size undeads support. $zombies zombies alive"
 }

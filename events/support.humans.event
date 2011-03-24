@@ -6,9 +6,9 @@ humans_support() {
 	local support_msg=$(($RANDOM % 3 + 1))
     echo -n "SUPPORT: "
     case $support_msg in 
-        1) echo -n "some policemen joined the humans." ;;
-        2) echo -n "some evil ninjas joined the humans." ;;
-        3) echo -n "saving private ryan. zombie edition." ;; 
+        1) echo -n "Some policemen joined the humans." ;;
+        2) echo -n "Some evil ninjas joined the humans." ;;
+        3) echo -n "Saving Private Ryan: Zombie Edition." ;; 
     esac
-    echo " the humans get $size people support. $humans humans alive"
+    echo " The humans get $size people support. $humans humans alive"
 }
