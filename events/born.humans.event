@@ -5,11 +5,11 @@ human_born() {
     zresql born human 
     echo -n "BORN: 1 human was born. "
     case $born_msg in 
-        1) echo -n "it was a cold night, about 9 month ago..." ;;
-        2) echo -n "he will be the next bofh." ;;
-        3) echo -n "it's a pirate! argh." ;;
-        4) echo -n "his name is bob." ;;
-        5) echo -n "her name is alice." ;;
+        1) echo -n "It was a cold night, about 9 months ago..." ;;
+        2) echo -n "He will be the next born." ;;
+        3) echo -n "It's a pirate! Argh." ;;
+        4) echo -n "His name is Bob." ;;
+        5) echo -n "Her name is Alice." ;;
     esac
     echo " $humans humans alive."
 }

@@ -3,12 +3,12 @@ zombie_attack() {
     local attack_msg=$((RANDOM % 6 + 1 ))
     echo -n "ATTACK: " 
     case $attack_msg in 
-        1) echo -n "zombies raid a farm near the city!" ;;
-        2) echo -n "zombies raid a pet shop!" ;;
-        3) echo -n "zombies raid a liquoer store. drunken zombies crossing." ;;
-        4) echo -n "zombies hijacked a garbage truck! it crashed into the non-swimmer's pool." ;;
-		5) echo -n "do you know the movie \"braindeath\"? the zombie with his lawnmower? he's here. exactly." ;;
-		6) echo -n "rebellion!" ;;
+        1) echo -n "Zombies raid a farm near the city!" ;;
+        2) echo -n "Zombies raid a pet shop!" ;;
+        3) echo -n "Zombies raid a liquer store. Drunken zombies crossing." ;;
+        4) echo -n "Zombies hijacked a garbage truck! It crashed into the non-swimmer's pool." ;;
+		5) echo -n "Do you know the movie \"braindeath\"? The zombie with his lawnmower? He's here. Exactly." ;;
+		6) echo -n "Rebellion!" ;;
     esac
     echo 
     attack_by zombies

@@ -4,9 +4,9 @@ weather() {
 		local nature_msg=$(($RANDOM % 3 + 1))
 		echo -n "WEATHER: "
 		case $nature_msg in
-			1) echo "a vulcano explodes." ; zresql weather vulcano ;;
-			2) echo "an earthquakes joggles the city." ; zresql weather earthquake ;;
-			3) echo "a hurricane hits the city." ; zresql weather hurricane ;;
+			1) echo "A volcano explodes." ; zresql weather vulcano ;;
+			2) echo "An earthquake hits the city." ; zresql weather earthquake ;;
+			3) echo "A hurricane hits the city." ; zresql weather hurricane ;;
 		esac
 		local human_victims=$(($RANDOM % $humans +2))
 		local zombie_victims=$(($RANDOM % $zombies +2))
@@ -17,9 +17,9 @@ weather() {
 		local nature_msg=$(($RANDOM % 3 + 1))
 		echo -n "WEATHER: "
 		case $nature_msg in 
-			1) echo "it's raining." ; zresql weather rain ;;
-			2) echo "snow in the city." ; zresql weather snow ;;
-			3) echo "gna. about 40 degrees. heat." ; zresql weather heat ;;
+			1) echo "It's raining." ; zresql weather rain ;;
+			2) echo "Snow in the city." ; zresql weather snow ;;
+			3) echo "Gna. About 40 degrees. Heat." ; zresql weather heat ;;
 		esac
 	fi
 }
