@@ -106,7 +106,7 @@ this module is very additional. it is just used for additional informations for 
 If you want to turn it on, fill in the following informations
 
     # turn sqlmodule on or off
-    sqlmodule=off
+    sqlmodule=on
 
     # sql database host
     sqlhost=localhost
@@ -122,12 +122,12 @@ If you want to turn it on, fill in the following informations
     
 and at least, create the database and its structure:
 
-    mysql -u root -p DBNAME < doc/zre_database.sql 
-
+    $ mysql -u root -p -e "create database DBNAME;"
+    $ mysql -u root -p DBNAME < doc/zre_database.sql 
 
 there is a little module in lib/sqlzre.library.bash. it is taking all the informations and send it automatically to the sql server. see the bash script for further details. 
 
-    sqlzre.library.bash
+    lib/sqlzre.library.bash
     
 the module is turned off by default
 
