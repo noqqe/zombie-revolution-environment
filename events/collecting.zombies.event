@@ -30,13 +30,13 @@ zombie_collecting() {
 	# collecting levels 1 - all between - final level
 	if [ $collectinglvl -eq 1 ]; then
 		echo -n "COLLECTING: Zombies started to collect biohazard trash to defeat humans. "
-        zresql buildings zombie biohazard $buildlvl 0
-	elif [ $collectinglvl -lt $collecting ]; then 
-		echo -n "COLLECTING: Further progress made collecting their filthy trash. " 	
-        zresql buildings zombie biohazard $buildlvl 0
+        zresql buildings zombie biohazard $collectinglvl 0
+	elif [ $collectinglvl -lt $collecting ]; then
+		echo -n "COLLECTING: Further progress made collecting their filthy trash. "
+        zresql buildings zombie biohazard $collectinglvl 0
 	elif [ $collectinglvl -eq $collecting ]; then
-		echo -n "COLLECTING: Finally the collecting is ready! " 
-        zresql buildings zombie biohazard $buildlvl 1 
+		echo -n "COLLECTING: Finally the collecting is ready! "
+        zresql buildings zombie biohazard $collectinglvl 1
 	fi
 	
 	# print status if not already reached
