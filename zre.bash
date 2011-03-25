@@ -36,6 +36,8 @@ for lib in $LIBRARY
 do
   source $lib
 done
+# parse database-adapter functions
+source lib/db/${database}stats.library.bash
 
 # create pid file    
 if [ -e $(pwd)/zre.pid ]; then
