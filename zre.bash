@@ -7,17 +7,18 @@
 ### config ####################################################################
 
 # include config 
-source conf/zre.conf
+if [ -r conf/zre.conf ]; then 
+    source conf/zre.conf
+else
+    echo "ERROR: Could not find config"
+    exit 1
+fi
 
 # include local conf if exists
 if [ -r conf/zre.local ]; then
     source conf/zre.local
 fi
 
-# include sql conf if exists
-if [ -r conf/sql.conf ]; then
-    source conf/sql.conf
-fi
 
 ### these things could happen #################################################
 
@@ -28,7 +29,7 @@ do
   source $event
 done
 
-### system functions ###########################################################
+### system functions ##########################################################
 
 # parse library functions
 LIBRARY="./lib/*.library.bash"
@@ -36,18 +37,29 @@ for lib in $LIBRARY
 do
   source $lib
 done
-# parse database-adapter functions
-source lib/db/${database}stats.library.bash
 
-# create pid file    
-if [ -e $(pwd)/zre.pid ]; then
-    rm $(pwd)/zre.pid
-fi 
-echo "$$" > $(pwd)/zre.pid
+### statistic module ##########################################################
+
+# include sql/couchdb conf and module if confiugred
+if [ "$statisticmodule" = "sql" ]; then
+    source conf/sql.conf
+    source lib/db/sqlstats.library.bash
+elif [ "$statisticmodule" = "couchdb" ]; then
+    source conf/couchdb.conf
+    source lib/db/couchdbstats.library.bash
+else
+    echo "Error by getting statistic module"
+fi
 
 ### create new world. this is the runtime #####################################
 
 if [ "$1" == "--daemon" ]; then 
+
+    # create pid file    
+    if [ -e $(pwd)/zre.pid ]; then
+            rm $(pwd)/zre.pid
+    fi
+    echo "$$" > $(pwd)/zre.pid
 
     # welcome message
     welcome > $output
@@ -123,5 +135,3 @@ else
         sleep $sleeptime
     done
 fi
-
-
